@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>袁彬彬 · Motion Graphics Designer</title>
+<meta name="description" content="袁彬彬，动态图形设计师，独立完成 100+ 动态图形项目，从分镜到成片全流程制作，服务腾讯、电信、华为等客户。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='4' y='4' width='56' height='56' rx='14' fill='%230B1020'/%3E%3Ccircle cx='32' cy='32' r='16' fill='%235B8DEF'/%3E%3Ccircle cx='26' cy='26' r='6' fill='%23E85E9C'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://miaoda.feishu.cn">
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Serif+SC:wght@500;600;700;900&amp;family=Space+Grotesk:wght@400;500;700&amp;display=swap">
+<style>
+  :root{
+    --bg-deep:#0A0E1C;
+    --bg-mid:#0E1430;
+    --panel:rgba(20,28,54,.62);
+    --panel-solid:#141C36;
+    --ink:#E9EDF8;
+    --ink-soft:#A9B2CC;
+    --ink-faint:#6C7494;
+    --line:rgba(233,237,248,.14);
+    --line-soft:rgba(233,237,248,.08);
+    --blue:#5B8DEF;
+    --blue-deep:#3E6BD8;
+    --pink:#E85E9C;
+    --gold:#E9C46A;
+    --cyan:#4FD1C5;
+    --serif:"Noto Serif SC","Songti SC","STSong","SimSun",serif;
+    --grot:"Space Grotesk","Segoe UI",sans-serif;
+    --sans:-apple-system,"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    color:var(--ink);
+    font-family:var(--sans);
+    line-height:1.7;
+    font-size:15px;
+    -webkit-font-smoothing:antialiased;
+    background:
+      radial-gradient(58% 52% at 18% 16%, rgba(91,141,239,.20), transparent 62%),
+      radial-gradient(50% 45% at 84% 10%, rgba(232,94,156,.14), transparent 60%),
+      radial-gradient(56% 50% at 78% 82%, rgba(79,209,197,.12), transparent 60%),
+      radial-gradient(60% 55% at 8% 88%, rgba(91,141,239,.12), transparent 62%),
+      linear-gradient(180deg,var(--bg-deep),var(--bg-mid) 45%,var(--bg-deep));
+  }
+  a{color:inherit;text-decoration:none}
+  img{display:block;max-width:100%}
+  ::selection{background:rgba(91,141,239,.35)}
+
+  canvas#bgCanvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+  .layout,.nav,footer,section,.toast,.player{position:relative;z-index:1}
+
+  .wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+
+  /* ===== 导航 ===== */
+  .nav{position:fixed;top:0;left:0;right:0;z-index:60;background:rgba(10,14,28,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line-soft)}
+  .nav__in{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .brand{display:flex;align-items:center;gap:11px;font-weight:600}
+  .brand .logo{width:30px;height:30px;position:relative}
+  .brand .logo::before{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 34% 32%,#8FB6FF,#3E6BD8 50%,#1B2A5E 75%,#0B1020);}
+  .brand .logo::after{content:"";position:absolute;top:9px;left:9px;width:7px;height:7px;border-radius:50%;background:var(--pink);box-shadow:0 0 8px rgba(232,94,156,.9)}
+  .brand b{font-family:var(--serif);font-size:17px}
+  .brand span{font-size:10px;color:var(--ink-faint);letter-spacing:.22em;text-transform:uppercase;font-family:var(--grot)}
+  .nav__links{display:flex;gap:30px}
+  .nav__links a{color:var(--ink-soft);font-size:14px;letter-spacing:.04em;position:relative;transition:color .25s}
+  .nav__links a::after{content:"";position:absolute;left:0;bottom:-6px;width:0;height:1px;background:var(--blue);transition:width .25s}
+  .nav__links a:hover{color:var(--ink)}
+  .nav__links a:hover::after{width:100%}
+
+  section{padding:100px 0}
+
+  /* ===== Hero ===== */
+  .hero{padding:176px 0 90px;overflow:hidden}
+  .hero__grid{display:grid;grid-template-columns:1fr;gap:30px;align-items:center}
+  .hero__text{position:relative;z-index:2}
+  .eyebrow{display:flex;align-items:center;gap:12px;font-size:12px;letter-spacing:.32em;color:var(--gold);text-transform:uppercase;font-family:var(--grot)}
+  .eyebrow::before{content:"";width:40px;height:1px;background:var(--gold)}
+  .hero__namewrap{position:relative;margin-top:22px}
+  .hero__year{position:absolute;left:-6px;top:50%;transform:translateY(-52%);font-family:var(--grot);font-weight:700;font-size:clamp(120px,22vw,300px);line-height:1;color:rgba(233,237,248,.06);letter-spacing:-.02em;pointer-events:none;user-select:none;z-index:0}
+  .hero h1{position:relative;z-index:1;font-family:var(--serif);font-weight:900;font-size:clamp(54px,10vw,104px);line-height:1.02;letter-spacing:.01em}
+  .hero h1 .hl{color:var(--blue);text-shadow:0 0 34px rgba(91,141,239,.5)}
+  .hero__role{position:relative;z-index:1;font-family:var(--serif);font-weight:600;font-size:clamp(20px,3vw,30px);letter-spacing:.08em;color:var(--ink-soft);margin-top:16px}
+  .hero__role em{font-style:normal;color:var(--pink)}
+  .hero__role .en{display:block;font-family:var(--grot);font-size:clamp(12px,1.6vw,16px);letter-spacing:.3em;text-transform:uppercase;color:var(--ink-faint);margin-top:8px}
+  .hero__lead{margin-top:30px;max-width:620px;color:var(--ink-soft);font-size:16px}
+  .hero__lead b{color:var(--ink);font-weight:600}
+  .hero__meta{display:flex;flex-wrap:wrap;gap:0;margin-top:42px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);max-width:660px}
+  .hero__meta span{padding:18px 34px 18px 0;margin-right:34px;color:var(--ink-soft);font-size:13.5px;position:relative;white-space:nowrap}
+  .hero__meta span b{color:var(--gold);font-family:var(--grot);font-weight:700;font-size:24px;margin-right:6px}
+  .hero__meta span:not(:last-child)::after{content:"";position:absolute;right:-18px;top:50%;transform:translateY(-50%);width:1px;height:26px;background:var(--line)}
+  .hero__cta{display:flex;gap:14px;margin-top:38px;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;gap:9px;padding:14px 30px;font-size:14px;letter-spacing:.06em;border:1px solid var(--blue);color:var(--ink);cursor:pointer;background:transparent;transition:all .25s;border-radius:2px}
+  .btn--solid{background:linear-gradient(135deg,var(--blue),var(--blue-deep));border-color:transparent;color:#0B1020;font-weight:700}
+  .btn--solid:hover{box-shadow:0 0 24px rgba(91,141,239,.5);transform:translateY(-1px)}
+  .btn--ghost:hover{background:rgba(91,141,239,.14)}
+
+  /* Hero 底部：服务分类（左） + 简介（右），呼应参考图版式 */
+  .hero__foot{display:flex;align-items:flex-end;justify-content:space-between;gap:32px;margin-top:56px;padding-top:22px;border-top:1px solid var(--line);max-width:880px}
+  .hero__svc{display:flex;flex-wrap:wrap;gap:8px 6px}
+  .hero__svc span{font-family:var(--grot);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);border:1px solid var(--line-soft);padding:5px 11px;transition:all .2s}
+  .hero__svc span:hover{color:var(--cyan);border-color:rgba(79,209,197,.5)}
+  .hero__intro{max-width:400px;margin-left:auto;color:var(--ink-faint);font-size:13px;line-height:1.75}
+  .hero__intro .cn{display:block;color:var(--ink-soft);font-size:13px;margin-bottom:4px}
+
+  /* ===== 区块头 ===== */
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:44px;flex-wrap:wrap}
+  .sec-head .no{font-family:var(--grot);color:var(--blue);font-size:14px;letter-spacing:.08em;font-weight:700}
+  .sec-head .no::before{content:"✧ ";color:var(--gold)}
+  .sec-head h2{font-family:var(--serif);font-weight:700;font-size:clamp(30px,4.6vw,48px);letter-spacing:.01em}
+  .sec-head .en{color:var(--ink-faint);font-size:11.5px;letter-spacing:.3em;text-transform:uppercase;margin-left:auto;font-family:var(--grot)}
+  .sec-rule{height:1px;background:var(--line);margin-bottom:46px;position:relative}
+  .sec-rule::after{content:"";position:absolute;left:0;top:-1px;width:64px;height:1px;background:linear-gradient(90deg,var(--blue),var(--pink))}
+
+  /* ===== 服务分类（借鉴参考首页） ===== */
+  .svc__grid{display:grid;grid-template-columns:1fr;gap:1px;background:var(--line);border:1px solid var(--line)}
+  .svc__cell{background:var(--panel);padding:26px 28px;transition:background .3s}
+  .svc__cell:hover{background:rgba(91,141,239,.10)}
+  .svc__cell .en{font-family:var(--grot);font-size:18px;font-weight:700;color:var(--ink);letter-spacing:.02em}
+  .svc__cell .en i{font-style:normal;color:var(--blue)}
+  .svc__cell .cn{margin-top:6px;color:var(--ink-soft);font-size:13.5px}
+
+  /* ===== 作品（单列 · 精致圆角） ===== */
+  .works__list{display:flex;flex-direction:column;gap:24px;max-width:720px;margin:0 auto}
+  .work{background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden;transition:border-color .3s,transform .3s,box-shadow .3s}
+  .work:hover{border-color:rgba(91,141,239,.5);transform:translateY(-2px);box-shadow:0 18px 50px rgba(4,8,20,.5)}
+  .work__media{position:relative;aspect-ratio:16/9;overflow:hidden;background:#080c1a;cursor:pointer}
+  .work__media img{width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.2,.6,.2,1)}
+  .work:hover .work__media img{transform:scale(1.03)}
+  .work__play{position:absolute;inset:0;width:100%;height:100%;border:0;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .work__play .ring{width:56px;height:56px;border-radius:50%;border:1px solid rgba(233,237,248,.85);display:flex;align-items:center;justify-content:center;background:rgba(11,16,32,.4);backdrop-filter:blur(4px);transition:all .3s}
+  .work__play .ring svg{margin-left:2px;fill:#E9EDF8;transition:fill .2s}
+  .work__play:hover .ring{background:linear-gradient(135deg,var(--blue),var(--pink));border-color:transparent;transform:scale(1.08)}
+  .work__play:hover .ring svg{fill:#0B1020}
+  .work__row{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-top:16px;padding:0 22px}
+  .work__num{font-family:var(--grot);font-weight:700;font-size:13px;color:var(--blue)}
+  .work__num::after{content:"/05";color:var(--ink-faint);font-weight:400;font-size:11px;margin-left:3px}
+  .work__title{font-family:var(--serif);font-weight:700;font-size:20px;letter-spacing:.01em}
+  .work__title .en{font-family:var(--grot);font-size:11.5px;color:var(--ink-faint);letter-spacing:.1em;margin-left:6px;font-weight:400;text-transform:uppercase}
+  .work__tag{font-size:10.5px;letter-spacing:.14em;color:var(--cyan);border:1px solid rgba(79,209,197,.4);padding:2px 9px;text-transform:uppercase;font-family:var(--grot)}
+  .work__dur{margin-left:auto;font-size:12px;color:var(--ink-faint);font-variant-numeric:tabular-nums;font-family:var(--grot)}
+  .work__note{margin:12px 22px 0;padding:11px 14px;border-left:2px solid var(--pink);background:rgba(232,94,156,.07);color:var(--ink-soft);font-size:13px;line-height:1.7}
+  .work__desc{margin-top:9px;padding:0 22px 22px;color:var(--ink-soft);font-size:13.5px}
+
+  /* ===== 时间轴 ===== */
+  .tl{display:grid;grid-template-columns:auto 1fr;column-gap:28px;position:relative}
+  .tl__axis{position:relative}
+  .tl__axis::before{content:"";position:absolute;top:8px;bottom:8px;left:50%;width:1px;background:var(--line);transform:translateX(-50%)}
+  .tl__node{position:relative;width:13px;height:13px;margin:6px auto 0;border:2px solid var(--blue);background:var(--bg-deep);transform:rotate(45deg);z-index:1;box-shadow:0 0 10px rgba(91,141,239,.6)}
+  .tl__item{padding-bottom:46px;position:relative}
+  .tl__item:last-child{padding-bottom:0}
+  .tl__period{display:inline-block;font-size:12.5px;color:var(--gold);letter-spacing:.1em;margin-bottom:6px;font-variant-numeric:tabular-nums;font-weight:600;font-family:var(--grot)}
+  .tl__role{font-family:var(--serif);font-weight:700;font-size:clamp(20px,2.6vw,27px)}
+  .tl__co{color:var(--ink-faint);font-size:14.5px;letter-spacing:.04em;margin:3px 0 12px}
+  .tl__list{list-style:none}
+  .tl__list li{position:relative;padding-left:20px;margin-bottom:9px;color:var(--ink-soft);font-size:15px}
+  .tl__list li::before{content:"";position:absolute;left:0;top:11px;width:7px;height:1px;background:var(--blue)}
+
+  /* ===== 工具（借鉴参考首页） ===== */
+  .tool__grid{display:grid;grid-template-columns:1fr;gap:14px}
+  .tool__card{background:var(--panel);border:1px solid var(--line);padding:22px 24px;display:flex;flex-direction:column;gap:4px;transition:all .3s}
+  .tool__card:hover{border-color:rgba(232,94,156,.45);transform:translateY(-2px)}
+  .tool__card .t{font-family:var(--grot);font-weight:700;font-size:17px;color:var(--ink)}
+  .tool__card .t i{font-style:normal;color:var(--pink)}
+  .tool__card .d{color:var(--ink-soft);font-size:13px;line-height:1.6}
+  .tool__card .d em{font-style:normal;color:var(--ink-faint);font-family:var(--grot);font-size:11.5px;display:block;text-transform:uppercase;letter-spacing:.08em}
+
+  /* ===== 自我评价 ===== */
+  .about .lead{font-family:var(--serif);font-size:clamp(20px,2.8vw,28px);line-height:1.9;color:var(--ink);max-width:840px;font-weight:600}
+  .about .lead .hl{color:var(--blue)}
+  .about .lead .pink{color:var(--pink)}
+  .about .more{margin-top:20px;color:var(--ink-soft);max-width:700px;font-size:15px}
+
+  /* ===== 联系 ===== */
+  .contact__grid{display:grid;grid-template-columns:1fr;gap:1px;background:var(--line);border:1px solid var(--line)}
+  .contact__cell{background:var(--panel);padding:36px 22px;text-align:center}
+  .contact__cell .k{font-size:11px;color:var(--ink-faint);letter-spacing:.28em;margin-bottom:13px;font-family:var(--grot)}
+  .contact__cell a,.contact__cell span{font-family:var(--serif);font-size:clamp(18px,2.8vw,25px);color:var(--ink);transition:color .25s}
+  .contact__cell a:hover{color:var(--blue)}
+
+  footer{padding:46px 0 60px}
+  footer .wrap{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;color:var(--ink-faint);font-size:12.5px;border-top:1px solid var(--line-soft);padding-top:26px}
+  footer .fbrand{display:flex;align-items:center;gap:9px;color:var(--ink-soft)}
+  footer .fbrand i{width:9px;height:9px;border-radius:50%;background:var(--blue);box-shadow:0 0 8px rgba(91,141,239,.8)}
+  footer .grot{font-family:var(--grot)}
+
+  .player{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(8,12,26,.94)}
+  .player.open{display:flex}
+  .player__box{position:relative;width:100%;max-width:1100px;background:#000;border:1px solid rgba(233,237,248,.2)}
+  .player__top{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:#0e1430;border-bottom:1px solid rgba(233,237,248,.12)}
+  .player__title{font-family:var(--serif);font-size:17px;letter-spacing:.04em}
+  .player__close{background:transparent;border:0;color:#8a93b0;font-size:24px;cursor:pointer;line-height:1;padding:4px 8px;transition:color .2s}
+  .player__close:hover{color:var(--ink)}
+  .player__frame{width:100%;display:block;aspect-ratio:16/9;background:#000;border:0}
+
+  .toast{position:fixed;left:50%;bottom:38px;transform:translateX(-50%) translateY(16px);background:linear-gradient(135deg,var(--blue),var(--blue-deep));color:#0B1020;padding:13px 24px;font-size:14px;letter-spacing:.04em;font-weight:600;opacity:0;pointer-events:none;transition:all .35s ease;z-index:120;white-space:nowrap;max-width:88vw;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .reveal{opacity:1;transform:none;transition:none}
+    .work__media img{transition:none}
+  }
+
+  @media (min-width:560px){
+    .contact__grid{grid-template-columns:repeat(3,1fr)}
+    .svc__grid{grid-template-columns:1fr 1fr}
+    .tool__grid{grid-template-columns:repeat(2,1fr)}
+  }
+  @media (min-width:900px){
+    .hero__grid{grid-template-columns:1fr}
+  }
+  @media (max-width:559px){
+    .nav__links{gap:18px}
+    .hero__meta span{width:100%;border-bottom:1px solid var(--line-soft);padding:14px 0;margin-right:0}
+    .hero__meta span:last-child{border-bottom:none}
+    .hero__meta span:not(:last-child)::after{display:none}
+    .hero__foot{flex-direction:column;align-items:flex-start;gap:18px;margin-top:40px}
+    .hero__intro{margin-left:0;max-width:100%}
+  }
+</style>
+</head>
+<body>
+
+<canvas id="bgCanvas" aria-hidden="true"></canvas>
+
+<header class="nav">
+  <div class="wrap nav__in">
+    <a class="brand" href="#top">
+      <span class="logo"></span>
+      <b>袁彬彬</b>
+      <span>Motion&nbsp;&amp;&nbsp;Animation</span>
+    </a>
+    <nav class="nav__links">
+      <a href="#works">作品</a>
+      <a href="#services">服务</a>
+      <a href="#experience">经历</a>
+      <a href="#contact">联系</a>
+    </nav>
+  </div>
+</header>
+
+<div class="layout">
+<main class="main">
+
+  <section class="hero" id="top">
+    <div class="wrap">
+      <div class="hero__grid">
+        <div class="hero__text">
+          <div class="eyebrow">Portfolio · 2026 · Motion</div>
+          <div class="hero__namewrap">
+            <span class="hero__year">2026</span>
+            <h1>袁彬彬<span class="hl">.</span></h1>
+          </div>
+          <div class="hero__role">动态图形<em>设计师</em><span class="en">Motion Graphics Designer</span></div>
+          <p class="hero__lead">专注动态图形与后期包装，独立完成 <b>100+</b> 动态图形项目，具备从分镜到成片输出的全流程制作经验，服务腾讯、电信、华为及政府单位等重点客户。</p>
+          <div class="hero__meta">
+            <span><b>100+</b>动态图形项目</span>
+            <span><b>3年</b>从业经验</span>
+            <span><b>5款</b>核心创作软件</span>
+          </div>
+          <div class="hero__cta">
+            <a class="btn btn--solid" href="#works">查看作品 Explore Work</a>
+            <a class="btn btn--ghost" href="#contact">联系我 Contact</a>
+          </div>
+
+          <div class="hero__foot">
+            <div class="hero__svc">
+              <span>Motion Graphics</span><span>Key Visual</span><span>E-commerce</span><span>Product Demo</span><span>VFX &amp; Comp</span><span>AIGC Design</span>
+            </div>
+            <p class="hero__intro">
+              <span class="cn">动态图形与后期包装，专注让每一帧都有情绪、有节奏。</span>
+              <span class="en">Motion graphics &amp; post-production, crafted frame by frame.</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="works" id="works">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="no">01</span>
+        <h2>作品<span class="en" style="margin-left:8px">Selected Works</span></h2>
+        <span class="en">Case Studies</span>
+      </div>
+      <div class="sec-rule reveal"></div>
+
+      <div class="works__list">
+        <article class="work reveal">
+          <div class="work__media">
+            <img src="assets/shuidi_poster.jpg" alt="水滴AI">
+            <button class="work__play" data-bv="BV1SZHA62ETy" data-title="水滴 AI · 界面演示" aria-label="播放水滴AI">
+              <span class="ring"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
+            </button>
+          </div>
+          <div class="work__row">
+            <span class="work__num">01</span>
+            <h3 class="work__title">水滴 AI<span class="en">Shuidi AI · UI Animation</span></h3>
+            <span class="work__tag">UI Animation</span>
+            <span class="work__dur">01:57</span>
+          </div>
+          <div class="work__note">法务 AI 知识库系统界面动画，以清新蓝调呈现法务知识资产数字化管理的视觉流程。</div>
+          <p class="work__desc">A clean, blue-toned UI animation for a legal-AI knowledge base.</p>
+        </article>
+
+        <article class="work reveal">
+          <div class="work__media">
+            <img src="assets/kezan_poster.jpg" alt="可赞">
+            <button class="work__play" data-bv="BV1MZHA62Eou" data-title="可赞 · 产品演示" aria-label="播放可赞">
+              <span class="ring"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
+            </button>
+          </div>
+          <div class="work__row">
+            <span class="work__num">02</span>
+            <h3 class="work__title">可赞<span class="en">Kezan · Product Demo</span></h3>
+            <span class="work__tag">Product Demo</span>
+            <span class="work__dur">01:25</span>
+          </div>
+          <div class="work__note">信息可视化工具演示，以“选中文字 · 即刻可视”为核心，汽车产业生态为主题。</div>
+          <p class="work__desc">Data-visualization product demo, select text to visualize.</p>
+        </article>
+
+        <article class="work reveal">
+          <div class="work__media">
+            <img src="assets/xingfa_poster.jpg" alt="兴发集团">
+            <button class="work__play" data-bv="BV1uZHA62EM9" data-title="兴发集团 · 企业 MG 动画" aria-label="播放兴发集团">
+              <span class="ring"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
+            </button>
+          </div>
+          <div class="work__row">
+            <span class="work__num">03</span>
+            <h3 class="work__title">兴发集团<span class="en">Xingfa Group · Brand MG</span></h3>
+            <span class="work__tag">Corporate MG</span>
+            <span class="work__dur">01:29</span>
+          </div>
+          <div class="work__note">整体风格沉稳大气，地下矿井机械作业场景结合品牌信息，以“以科技之力”为核心完成动画演绎。</div>
+          <p class="work__desc">Mining &amp; industrial brand motion — cinematic underground scenes, solid and confident.</p>
+        </article>
+
+        <article class="work reveal">
+          <div class="work__media">
+            <img src="assets/dongtai_kv_poster.jpg" alt="动态KV">
+            <button class="work__play" data-bv="BV1NKHP63EBT" data-title="动态KV · 节日动态主视觉" aria-label="播放动态KV">
+              <span class="ring"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
+            </button>
+          </div>
+          <div class="work__row">
+            <span class="work__num">04</span>
+            <h3 class="work__title">动态 KV<span class="en">Festive Key Visual</span></h3>
+            <span class="work__tag">Key Visual</span>
+            <span class="work__dur">00:15</span>
+          </div>
+          <div class="work__note">喜庆节日主视觉，红衣卡通形象 + 红包金币元素，完成节日情绪的动态化表达。</div>
+          <p class="work__desc">Playful, warm, and full of festive energy.</p>
+        </article>
+
+        <article class="work reveal">
+          <div class="work__media">
+            <img src="assets/kate_poster.jpg" alt="卡特商城">
+            <button class="work__play" data-bv="BV11KHP63EaW" data-title="卡特商城 · 电商产品动画" aria-label="播放卡特商城">
+              <span class="ring"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
+            </button>
+          </div>
+          <div class="work__row">
+            <span class="work__num">05</span>
+            <h3 class="work__title">卡特商城<span class="en">CAT Mall · E-commerce</span></h3>
+            <span class="work__tag">E-commerce</span>
+            <span class="work__dur">00:41</span>
+          </div>
+          <div class="work__note">以“种类全 · 有保障”为核心，购物车装载工程机械配件的动态表达。</div>
+          <p class="work__desc">E-commerce animation built around one clear selling point.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="services" id="services">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="no">02</span>
+        <h2>服务<span class="en" style="margin-left:8px">What I Do</span></h2>
+        <span class="en">Capabilities</span>
+      </div>
+      <div class="sec-rule reveal"></div>
+      <div class="svc__grid reveal">
+        <div class="svc__cell"><div class="en">Motion <i>Graphics</i></div><div class="cn">MG 动画 · 从分镜到成片的全流程制作</div></div>
+        <div class="svc__cell"><div class="en">Key <i>Visual</i></div><div class="cn">动态 KV · 节日与品牌主视觉的动态表达</div></div>
+        <div class="svc__cell"><div class="en">E-commerce <i>Animation</i></div><div class="cn">电商动画 · 卖点驱动的产品动态演绎</div></div>
+        <div class="svc__cell"><div class="en">Product <i>Demo</i></div><div class="cn">产品演示 · 信息可视化与界面动画</div></div>
+        <div class="svc__cell"><div class="en">VFX <i>&amp; Compositing</i></div><div class="cn">特效包装 · 文字动画与实景合成</div></div>
+        <div class="svc__cell"><div class="en">AIGC <i>Design</i></div><div class="cn">AIGC 创作 · AI 技术在内容创作中的应用</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="no">03</span>
+        <h2>经历<span class="en" style="margin-left:8px">Experience</span></h2>
+        <span class="en">Career Path</span>
+      </div>
+      <div class="sec-rule reveal"></div>
+
+      <div class="tl">
+        <div class="tl__axis"><span class="tl__node"></span></div>
+        <div class="tl__item reveal">
+          <div class="tl__period">2024.06 — 2026.03</div>
+          <div class="tl__role">MG 动画师</div>
+          <div class="tl__co">成都壹元文化</div>
+          <ul class="tl__list">
+            <li>独立完成约 100+ 动态图形项目，涵盖 MG 动画、特效包装、文字动画及实景合成，具备从分镜到成片的全流程制作经验</li>
+            <li>使用 AE 结合 Duik、E3D、Particular 等插件提升动画表现力与制作效率</li>
+            <li>独立完成背景音乐与音效的选取、剪辑与时间轴匹配，增强作品视听感染力</li>
+            <li>服务腾讯、电信、华为、政府单位等重点客户</li>
+          </ul>
+        </div>
+
+        <div class="tl__axis"><span class="tl__node"></span></div>
+        <div class="tl__item reveal">
+          <div class="tl__period">2023.07 — 2024.05</div>
+          <div class="tl__role">MG 动画师</div>
+          <div class="tl__co">成都宾果文化</div>
+          <ul class="tl__list">
+            <li>制作二十四节气主题动画，使用 AE 精准实现图形与角色动效，确保节奏流畅、表现力强</li>
+            <li>根据已有脚本和视觉素材独立完成动画制作，动效自然、符合创意需求</li>
+            <li>建立个人素材库并规范文件管理流程</li>
+          </ul>
+        </div>
+
+        <div class="tl__axis"><span class="tl__node"></span></div>
+        <div class="tl__item reveal">
+          <div class="tl__period">2020.09 — 2023.06</div>
+          <div class="tl__role">教育背景</div>
+          <div class="tl__co">广安职业技术学院</div>
+          <ul class="tl__list">
+            <li>系统学习设计与动画制作相关课程，奠定动态设计基础</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tools" id="tools">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="no">04</span>
+        <h2>工具<span class="en" style="margin-left:8px">Toolbox</span></h2>
+        <span class="en">Software</span>
+      </div>
+      <div class="sec-rule reveal"></div>
+      <div class="tool__grid reveal">
+        <div class="tool__card"><div class="t">After <i>Effects</i></div><div class="d">MG 动画与后期制作的核心，配合 Duik、E3D、Particular 插件完成复杂动效<em>Motion Graphics · Post Production</em></div></div>
+        <div class="tool__card"><div class="t"><i>Premiere</i> Pro</div><div class="d">剪辑、音效选取与时间轴匹配，独立完成背景音乐与音效的整合<em>Editing · Sound Design</em></div></div>
+        <div class="tool__card"><div class="t"><i>Photoshop</i></div><div class="d">画面细节修复与色彩调整，为动画准备高质量的素材<em>Retouching · Color Grading</em></div></div>
+        <div class="tool__card"><div class="t"><i>Illustrator</i></div><div class="d">矢量图形与标识设计，为动态图形提供可延展的图形语言<em>Vector · Logo Design</em></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about" id="about">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="no">05</span>
+        <h2>自我评价<span class="en" style="margin-left:8px">About</span></h2>
+        <span class="en">Profile</span>
+      </div>
+      <div class="sec-rule reveal"></div>
+      <p class="lead reveal">熟练使用 After Effects 进行动画制作与后期处理，掌握常用插件工具，<span class="hl">注重画面节奏与整体协调性</span>，具备一定的视听整合能力，能独立完成音效剪辑。</p>
+      <p class="more reveal">保持持续学习的态度，不断提升技术广度与创意表达，追求在动态设计领域不断突破与成长。工作之外喜欢旅游与摄影，从生活中汲取创作灵感。</p>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="no">06</span>
+        <h2>联系<span class="en" style="margin-left:8px">Contact</span></h2>
+        <span class="en">Get In Touch</span>
+      </div>
+      <div class="sec-rule reveal"></div>
+      <div class="contact__grid reveal">
+        <div class="contact__cell">
+          <div class="k">PHONE</div>
+          <a href="tel:17366913753">173 6691 3753</a>
+        </div>
+        <div class="contact__cell">
+          <div class="k">EMAIL</div>
+          <a href="mailto:2056340339@qq.com">2056340339@qq.com</a>
+        </div>
+        <div class="contact__cell">
+          <div class="k">BASE</div>
+          <span>成都 · 重庆</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <div class="fbrand"><i></i>袁彬彬 · 动态图形设计师</div>
+      <span class="grot">© 2026 Binbin Yuan · Motion Graphics</span>
+    </div>
+  </footer>
+
+</main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="player" id="player" role="dialog" aria-modal="true" aria-label="作品播放">
+  <div class="player__box">
+    <div class="player__top">
+      <span class="player__title" id="playerTitle"></span>
+      <button class="player__close" id="playerClose" aria-label="关闭">×</button>
+    </div>
+    <iframe id="playerFrame" class="player__frame" title="作品播放" allow="autoplay; fullscreen; picture-in-picture"></iframe>
+  </div>
+</div>
+
+<script>
+  (function(){
+    var modal = document.getElementById('player');
+    var frame = document.getElementById('playerFrame');
+    var titleEl = document.getElementById('playerTitle');
+    var closeBtn = document.getElementById('playerClose');
+    document.querySelectorAll('.work__play').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var bv = (btn.getAttribute('data-bv') || '').trim();
+        if (!bv){ return; }
+        titleEl.textContent = btn.getAttribute('data-title') || '作品';
+        frame.setAttribute('src', 'https://player.bilibili.com/player.html?bvid=' + bv + '&page=1&high_quality=1&danmaku=0&autoplay=1');
+        modal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+    function close(){
+      modal.classList.remove('open');
+      document.body.style.overflow = '';
+      frame.setAttribute('src', 'about:blank');
+    }
+    closeBtn.addEventListener('click', close);
+    modal.addEventListener('click', function(e){ if (e.target === modal) close(); });
+    document.addEventListener('keydown', function(e){ if (e.key === 'Escape') close(); });
+
+    var revealEls = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){
+          if (en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }
+        });
+      }, {threshold: 0.12, rootMargin: '0px 0px -6% 0px'});
+      revealEls.forEach(function(el){ io.observe(el); });
+    } else {
+      revealEls.forEach(function(el){ el.classList.add('in'); });
+    }
+  })();
+</script>
+
+<script>
+  // ===== 背景：星空 + 星球 + 流星 =====
+  (function(){
+    var cv = document.getElementById('bgCanvas');
+    if (!cv) return;
+    var ctx = cv.getContext('2d');
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var W = 0, H = 0;
+    function measure(){
+      W = window.innerWidth; H = window.innerHeight;
+      cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    var starCols = ['233,237,248', '233,237,248', '91,141,239', '232,94,156', '233,196,106'];
+    var stars = [];
+    function initStars(){
+      stars = [];
+      for (var i = 0; i < 130; i++){
+        stars.push({
+          x: Math.random() * W, y: Math.random() * H,
+          r: 0.7 + Math.random() * 1.8,
+          c: starCols[i % starCols.length],
+          a: 0.3 + Math.random() * 0.6,
+          tw: Math.random() * Math.PI * 2,
+          tws: 0.5 + Math.random() * 1.6,
+          vx: (Math.random() - 0.5) * 0.05, vy: (Math.random() - 0.5) * 0.05
+        });
+      }
+    }
+
+    // 星球：一颗放大的主星球（右上角，透视星环）+ 两颗虚化背景点缀
+    var planets = [];
+    function initPlanets(){
+      var r = Math.min(W, H);
+      planets = [
+        {main:true, x: W*0.85, y: H*0.20, r: r*0.15, c:'91,141,239', hi:'#C9DCFF', mid:'#5C8AEE', lo:'#1C2F70', tilt:-0.34},
+        {x: W*0.10, y: H*0.55, r: r*0.05, c:'232,94,156', blur:14, alpha:0.45},
+        {x: W*0.78, y: H*0.80, r: r*0.05, c:'233,196,106', blur:14, alpha:0.42}
+      ];
+    }
+
+    function init(){ measure(); initStars(); initPlanets(); }
+    init();
+
+    // 流星
+    var shooting = {active:false, x:0, y:0, vx:0, vy:0, len:0, life:0};
+    var nextShoot = 4 + Math.random() * 4;
+
+    function drawStar(m, t){
+      var a = m.a * (0.55 + 0.45 * Math.sin(t * m.tws + m.tw));
+      if (a < 0.05) a = 0.05;
+      ctx.fillStyle = 'rgba(' + m.c + ',' + a + ')';
+      ctx.beginPath(); ctx.arc(m.x, m.y, m.r, 0, Math.PI * 2); ctx.fill();
+    }
+
+    function drawPlanet(p){
+      if (p.main){
+        // 主星球：放大，右上角，透视星环（先后半、再球体、再前半），无正面阴影
+        ctx.save();
+        ctx.translate(p.x, p.y); ctx.rotate(p.tilt);
+        var rx = p.r*1.9, ry = p.r*0.60;
+        // 环·后半（上方，在球后）
+        ctx.strokeStyle = 'rgba(215,225,248,0.45)';
+        ctx.lineWidth = Math.max(2, p.r*0.07);
+        ctx.beginPath(); ctx.ellipse(0,0,rx,ry,0,Math.PI,Math.PI*2); ctx.stroke();
+        ctx.strokeStyle = 'rgba(243,248,255,0.7)';
+        ctx.lineWidth = 1.4;
+        ctx.beginPath(); ctx.ellipse(0,0,rx,ry,0,Math.PI,Math.PI*2); ctx.stroke();
+        // 球体（干净明暗球面）
+        var g = ctx.createRadialGradient(-p.r*0.42, -p.r*0.42, p.r*0.1, 0, 0, p.r);
+        g.addColorStop(0, p.hi);
+        g.addColorStop(0.5, p.mid);
+        g.addColorStop(1, p.lo);
+        ctx.fillStyle = g;
+        ctx.beginPath(); ctx.arc(0, 0, p.r, 0, Math.PI*2); ctx.fill();
+        // 环·前半（下方，在球前）
+        ctx.strokeStyle = 'rgba(215,225,248,0.5)';
+        ctx.lineWidth = Math.max(2, p.r*0.07);
+        ctx.beginPath(); ctx.ellipse(0,0,rx,ry,0,0,Math.PI); ctx.stroke();
+        ctx.strokeStyle = 'rgba(243,248,255,0.78)';
+        ctx.lineWidth = 1.4;
+        ctx.beginPath(); ctx.ellipse(0,0,rx,ry,0,0,Math.PI); ctx.stroke();
+        ctx.restore();
+      } else {
+        // 虚化背景点缀星球（不显眼）
+        ctx.save();
+        ctx.filter = 'blur(' + (p.blur || 12) + 'px)';
+        var gg = ctx.createRadialGradient(p.x, p.y, p.r*0.2, p.x, p.y, p.r*1.4);
+        gg.addColorStop(0, 'rgba(' + p.c + ',' + (p.alpha || 0.4) + ')');
+        gg.addColorStop(1, 'rgba(' + p.c + ',0)');
+        ctx.fillStyle = gg;
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r*1.4, 0, Math.PI*2); ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    function draw(staticFrame){
+      ctx.clearRect(0, 0, W, H);
+      var t = staticFrame ? 0 : performance.now() * 0.001;
+      var i, s;
+
+      for (i = 0; i < stars.length; i++){ drawStar(stars[i], t); }
+
+      for (i = 0; i < planets.length; i++){ drawPlanet(planets[i]); }
+
+      if (staticFrame) return;
+
+      // 流星
+      nextShoot -= 1/60;
+      if (!shooting.active && nextShoot <= 0){
+        shooting.active = true;
+        var ang = Math.random() * 0.5 + 0.15;
+        var spd = 14 + Math.random() * 10;
+        shooting.x = Math.random() * W;
+        shooting.y = Math.random() * H * 0.35;
+        shooting.vx = Math.cos(ang) * spd;
+        shooting.vy = Math.sin(ang) * spd;
+        shooting.len = 0;
+        shooting.life = 0;
+        nextShoot = 4 + Math.random() * 5;
+      }
+      if (shooting.active){
+        shooting.life += 1/60;
+        if (shooting.life > 1.1) { shooting.active = false; }
+        var grad = ctx.createLinearGradient(shooting.x, shooting.y, shooting.x - shooting.vx*0.9, shooting.y - shooting.vy*0.9);
+        grad.addColorStop(0, 'rgba(233,237,248,.9)');
+        grad.addColorStop(1, 'rgba(233,237,248,0)');
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(shooting.x, shooting.y);
+        ctx.lineTo(shooting.x - shooting.vx*0.9, shooting.y - shooting.vy*0.9);
+        ctx.stroke();
+        shooting.x += shooting.vx;
+        shooting.y += shooting.vy;
+      }
+    }
+
+    if (reduce){ draw(true); return; }
+
+    var running = true;
+    function loop(){ if (!running) return; draw(false); requestAnimationFrame(loop); }
+    document.addEventListener('visibilitychange', function(){
+      running = !document.hidden;
+      if (running) requestAnimationFrame(loop);
+    });
+    window.addEventListener('resize', function(){ init(); });
+    // 轻微视差：背景只微微移动
+    var setPar = function(){
+      var y = -Math.min(140, Math.max(0, window.pageYOffset || document.documentElement.scrollTop) * 0.08);
+      cv.style.transform = 'translate3d(0,' + y + 'px,0)';
+    };
+    window.addEventListener('scroll', setPar, {passive:true});
+    setPar();
+    requestAnimationFrame(loop);
+  })();
+</script>
+</body>
+</html>
